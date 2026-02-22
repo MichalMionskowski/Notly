@@ -48,7 +48,7 @@ fun NotesScreen(
             }
         )
         NotesList(
-            notesList = notesState.value.notes
+            notesList = notesState.value
         )
     }
 }
