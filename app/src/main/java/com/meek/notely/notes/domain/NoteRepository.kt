@@ -7,4 +7,6 @@ interface NoteRepository {
     fun getAllNotes(): Flow<List<Note>>
 
     fun addNote(note: Note)
+
+    fun deleteNote(noteId : String)
 }
