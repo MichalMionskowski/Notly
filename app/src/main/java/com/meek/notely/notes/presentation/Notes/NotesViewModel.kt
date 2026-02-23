@@ -1,4 +1,4 @@
-package com.meek.notely.notes.presentation
+package com.meek.notely.notes.presentation.Notes
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -1,6 +1,6 @@
-package com.meek.notely.notes.presentation
+package com.meek.notely.notes.presentation.Notes
 
-import android.widget.CheckBox
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,7 +28,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 @Composable
 fun NotesScreen(
     modifier: Modifier,
-    notesViewModel: NotesViewModel
+    notesViewModel: NotesViewModel,
+    onNoteClick: (id: String) -> Unit,
 ) {
     val (text, setText) = remember { mutableStateOf("") }
     val notesState = notesViewModel.state.collectAsStateWithLifecycle()
@@ -56,6 +57,7 @@ fun NotesScreen(
         )
         NotesList(
             notesList = notesState.value,
+            onNoteClick = onNoteClick ,
             onCheckboxClick = { noteItem: NoteItem ->
                 notesViewModel.onEvent(
                     NotesEvent.OnCheckboxClick(
@@ -103,6 +105,7 @@ fun TaskInput(
 fun NotesList(
     modifier: Modifier = Modifier,
     notesList: List<NoteItem>,
+    onNoteClick: (id:String) -> Unit,
     onCheckboxClick: (NoteItem) -> Unit,
     onDeleteClick: (String) -> Unit
 ) {
@@ -110,6 +113,7 @@ fun NotesList(
         notesList.forEach { note ->
             NoteItem(
                 note = note,
+                onClick = { onNoteClick(note.id) },
                 onCheckboxClick = onCheckboxClick,
                 onDeleteClick = onDeleteClick
             )
@@ -120,6 +124,7 @@ fun NotesList(
 @Composable
 fun NoteItem(
     note: NoteItem,
+    onClick: () -> Unit,
     onCheckboxClick: (NoteItem) -> Unit,
     onDeleteClick: (String) -> Unit
 ) {
@@ -135,7 +140,13 @@ fun NoteItem(
                 .fillMaxWidth()
                 .padding(8.dp)
         ) {
-            Text(text = note.content, modifier = Modifier.weight(1f))
+            Text(
+                text = note.content, modifier = Modifier
+                    .weight(1f)
+                    .clickable(
+                        onClick = onClick
+                    )
+            )
 
             IconButton(onClick = { onDeleteClick(note.id) }) {
                 Icon(

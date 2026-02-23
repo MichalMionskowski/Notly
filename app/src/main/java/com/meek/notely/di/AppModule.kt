@@ -2,8 +2,8 @@ package com.meek.notely.di
 
 import com.meek.notely.notes.data.db.NoteRepositoryImpl
 import com.meek.notely.notes.domain.NoteRepository
-import com.meek.notely.notes.presentation.NotesUiMapper
-import com.meek.notely.notes.presentation.NotesUiMapperImpl
+import com.meek.notely.notes.presentation.Notes.NotesUiMapper
+import com.meek.notely.notes.presentation.Notes.NotesUiMapperImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -1,4 +1,4 @@
-package com.meek.notely.notes.presentation
+package com.meek.notely.notes.presentation.Notes
 
 data class NotesState(
     val notes : List<NoteItem> = emptyList()
