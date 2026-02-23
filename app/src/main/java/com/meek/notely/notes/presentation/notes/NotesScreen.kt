@@ -1,4 +1,4 @@
-package com.meek.notely.notes.presentation.Notes
+package com.meek.notely.notes.presentation.notes
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column

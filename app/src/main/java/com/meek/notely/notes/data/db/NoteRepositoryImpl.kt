@@ -3,11 +3,14 @@ package com.meek.notely.notes.data.db
 import com.meek.notely.di.IoDispatcher
 import com.meek.notely.notes.data.db.notes.NoteDao
 import com.meek.notely.notes.data.db.notes.toNote
+import com.meek.notely.notes.data.db.notes.toNoteDetail
 import com.meek.notely.notes.data.db.notes.toNoteEntity
 import com.meek.notely.notes.domain.NoteRepository
 import com.meek.notely.notes.domain.models.Note
+import com.meek.notely.notes.domain.models.NoteDetail
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,6 +23,12 @@ class NoteRepositoryImpl @Inject constructor(
     override fun getAllNotes() = noteDao.getAllNotes().map {
         it.map { noteEntity ->
             noteEntity.toNote()
+        }
+    }
+
+    override fun getNoteDetailsById(noteId: String): Flow<NoteDetail> {
+        return noteDao.getNote(noteId).map {
+            it.toNoteDetail()
         }
     }
 

@@ -1,7 +1,6 @@
 package com.meek.notely.notes.data.db.notes
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Upsert
@@ -17,6 +16,9 @@ interface NoteDao {
 
     @Upsert
     suspend fun upsertNote(noteEntity: NoteEntity)
+
+    @Query("SELECT * FROM NoteEntity WHERE id = :id")
+    fun getNote(id: String): Flow<NoteEntity>
 
     @Query("SELECT * FROM NoteEntity")
     fun getAllNotes(): Flow<List<NoteEntity>>

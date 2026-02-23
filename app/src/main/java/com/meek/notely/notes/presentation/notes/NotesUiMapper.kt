@@ -1,4 +1,4 @@
-package com.meek.notely.notes.presentation.Notes
+package com.meek.notely.notes.presentation.notes
 
 import com.meek.notely.notes.domain.models.Note
 import javax.inject.Inject
