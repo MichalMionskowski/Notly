@@ -1,5 +1,6 @@
-package com.meek.notely.notes.domain
+package com.meek.notely.notes.domain.usecases
 
+import com.meek.notely.notes.domain.NoteRepository
 import javax.inject.Inject
 
 class DeleteNoteUseCase @Inject constructor(

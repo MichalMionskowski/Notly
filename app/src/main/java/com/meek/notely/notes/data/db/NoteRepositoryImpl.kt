@@ -34,4 +34,10 @@ class NoteRepositoryImpl @Inject constructor(
             noteDao.deleteNote(noteId)
         }
     }
+
+    override fun updateNote(note: Note) {
+        repositoryScope.launch {
+            noteDao.upsertNote(note.toNoteEntity())
+        }
+    }
 }

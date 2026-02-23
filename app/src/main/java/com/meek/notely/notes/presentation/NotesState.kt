@@ -14,4 +14,5 @@ data class NoteItem(
 sealed class NotesEvent{
     data class OnAddNote(val note: NoteItem) : NotesEvent()
     data class OnDeleteNote(val noteId: String) : NotesEvent()
+    data class OnCheckboxClick(val note: NoteItem) : NotesEvent()
 }

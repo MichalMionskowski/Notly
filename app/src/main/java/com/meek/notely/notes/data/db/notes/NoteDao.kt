@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -13,6 +14,9 @@ interface NoteDao {
 
     @Query("DELETE FROM NoteEntity WHERE id = :noteId")
     suspend fun deleteNote(noteId: String)
+
+    @Upsert
+    suspend fun upsertNote(noteEntity: NoteEntity)
 
     @Query("SELECT * FROM NoteEntity")
     fun getAllNotes(): Flow<List<NoteEntity>>

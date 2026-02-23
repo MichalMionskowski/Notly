@@ -1,5 +1,6 @@
-package com.meek.notely.notes.domain
+package com.meek.notely.notes.domain.usecases
 
+import com.meek.notely.notes.domain.NoteRepository
 import com.meek.notely.notes.domain.models.Note
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

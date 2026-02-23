@@ -9,4 +9,6 @@ interface NoteRepository {
     fun addNote(note: Note)
 
     fun deleteNote(noteId : String)
+
+    fun updateNote(note: Note)
 }

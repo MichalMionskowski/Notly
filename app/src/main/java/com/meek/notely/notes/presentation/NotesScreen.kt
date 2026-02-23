@@ -1,5 +1,6 @@
 package com.meek.notely.notes.presentation
 
+import android.widget.CheckBox
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +12,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -40,6 +42,7 @@ fun NotesScreen(
             inputText = text,
             onInputChange = { newText -> setText(newText) },
             onTaskSubmit = {
+                setText("")
                 notesViewModel.onEvent(
                     NotesEvent.OnAddNote(
                         NoteItem(
@@ -53,6 +56,14 @@ fun NotesScreen(
         )
         NotesList(
             notesList = notesState.value,
+            onCheckboxClick = { noteItem: NoteItem ->
+                notesViewModel.onEvent(
+                    NotesEvent.OnCheckboxClick(
+                        noteItem
+                    )
+                )
+
+            },
             onDeleteClick = { noteId: String ->
                 notesViewModel.onEvent(
                     NotesEvent.OnDeleteNote(
@@ -92,17 +103,26 @@ fun TaskInput(
 fun NotesList(
     modifier: Modifier = Modifier,
     notesList: List<NoteItem>,
+    onCheckboxClick: (NoteItem) -> Unit,
     onDeleteClick: (String) -> Unit
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
         notesList.forEach { note ->
-            NoteItem(note, onDeleteClick = onDeleteClick)
+            NoteItem(
+                note = note,
+                onCheckboxClick = onCheckboxClick,
+                onDeleteClick = onDeleteClick
+            )
         }
     }
 }
 
 @Composable
-fun NoteItem(note: NoteItem, onDeleteClick: (String) -> Unit) {
+fun NoteItem(
+    note: NoteItem,
+    onCheckboxClick: (NoteItem) -> Unit,
+    onDeleteClick: (String) -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -123,6 +143,11 @@ fun NoteItem(note: NoteItem, onDeleteClick: (String) -> Unit) {
                     contentDescription = "Delete note"
                 )
             }
+
+            Checkbox(
+                checked = note.completed,
+                onCheckedChange = { onCheckboxClick(note) }
+            )
         }
     }
 }

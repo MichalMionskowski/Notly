@@ -2,22 +2,23 @@ package com.meek.notely.notes.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.meek.notely.notes.domain.AddNoteUseCase
-import com.meek.notely.notes.domain.DeleteNoteUseCase
-import com.meek.notely.notes.domain.GetAllNotesUseCase
+import com.meek.notely.notes.domain.usecases.AddNoteUseCase
+import com.meek.notely.notes.domain.usecases.DeleteNoteUseCase
+import com.meek.notely.notes.domain.usecases.GetAllNotesUseCase
+import com.meek.notely.notes.domain.usecases.SetCompletedTaskUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class NotesViewModel @Inject constructor(
+    val notesUiMapper: NotesUiMapper,
     getAllNotesUseCase: GetAllNotesUseCase,
     val addNoteUseCase: AddNoteUseCase,
-    val notesUiMapper: NotesUiMapper,
+    val setCompletedTaskUseCase: SetCompletedTaskUseCase,
     val deleteNoteUseCase: DeleteNoteUseCase
 ) : ViewModel() {
     val state: StateFlow<List<NoteItem>> =
@@ -37,6 +38,16 @@ class NotesViewModel @Inject constructor(
 
             is NotesEvent.OnDeleteNote -> {
                 deleteNoteUseCase(event.noteId)
+            }
+
+            is NotesEvent.OnCheckboxClick -> {
+                setCompletedTaskUseCase(
+                    notesUiMapper.mapNoteItemToNote(
+                        event.note.copy(
+                            completed = !event.note.completed
+                        )
+                    )
+                )
             }
         }
     }
